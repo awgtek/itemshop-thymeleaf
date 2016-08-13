@@ -1,0 +1,208 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout">
+<head>
+<title>Spring Boot CRUD Example</title>
+</head>
+<body>
+	<div  class="container" layout:fragment="content">
+
+		<div class="row">
+			<div class="col-md-offset-3 col-md-6">
+
+				<!-- Save Alert Messages -->
+				<div th:if="${saveShopItem eq 'unsuccess'}">
+					<div class="alert alert-danger alert-dismissible" role="alert">
+						<strong>Error!</strong> ShopItem Data Not Saved.
+					</div>
+				</div>
+				<div th:if="${saveShopItem eq 'success'}">
+					<div class="alert alert-success alert-dismissible" role="alert">
+						<strong>Success!</strong> ShopItem Data Saved Successfully.
+					</div>
+				</div>
+
+				<!-- Deletion Alert Messages -->
+				<div th:if="${deletion eq 'unsuccess'}">
+					<div class="alert alert-danger alert-dismissible" role="alert">
+						<strong>Error!</strong> ShopItem Data Not Deleted.
+					</div>
+				</div>
+				<div th:if="${deletion eq 'success'}">
+					<div class="alert alert-success alert-dismissible" role="alert">
+						<strong>Success!</strong> ShopItem Data Deleted Successfully.
+					</div>
+				</div>
+
+				<!-- increment Alert Messages -->
+				<div th:if="${increment eq 'unsuccess'}">
+					<div class="alert alert-danger alert-dismissible" role="alert">
+						<strong>Error!</strong> ShopItem Data Not incremented.
+					</div>
+				</div>
+				<div th:if="${increment eq 'success'}">
+					<div class="alert alert-success alert-dismissible" role="alert">
+						<strong>Success!</strong> ShopItem Data Incremented Successfully.
+					</div>
+				</div>
+
+				<!-- increment Alert Messages -->
+				<div th:if="${decrement eq 'unsuccess'}">
+					<div class="alert alert-danger alert-dismissible" role="alert">
+						<strong>Error!</strong> ShopItem Data Not decremented.
+					</div>
+				</div>
+				<div th:if="${decrement eq 'success'}">
+					<div class="alert alert-success alert-dismissible" role="alert">
+						<strong>Success!</strong> ShopItem Data decremented Successfully.
+					</div>
+				</div>
+
+				<!-- Edit Alert Message -->
+				<div th:if="${status eq 'notfound'}">
+					<div class="alert alert-danger alert-dismissible" role="alert">
+						<strong>Error!</strong> Invalid ShopItem.
+					</div>
+				</div>
+				<div th:if="${edit eq 'unsuccess'}">
+					<div class="alert alert-danger alert-dismissible" role="alert">
+						<strong>Error!</strong> ShopItem Data Not Edited.
+					</div>
+				</div>
+				<div th:if="${edit eq 'success'}">
+					<div class="alert alert-success alert-dismissible" role="alert">
+						<strong>Success!</strong> ShopItem Data Edited Successfully.
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		<div class="row visible-lg-block visible-md-block">
+			<div class="col-md-offset-2 col-md-8">
+				<div class="panel panel-success">
+					<div class="panel-heading">
+						<h3 class="panel-title">All ShopItems</h3>
+						<a th:href="@{/}">home</a>
+					</div>
+					<div class="panel-body">
+						<table class="table table-bordered table-responsive">
+							<thead>
+								<tr class="btn-success">
+									<th>Name</th>
+									<th>Pri</th>
+<!-- 									<th>Notes</th> -->
+									<th>Operation</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:if="${#lists.isEmpty(allShopItems)}" class="btn-warning">
+									<td colspan="4" align="center">No ShopItem Registered
+										Yet!!!</td>
+								</tr>
+								<tr th:each="emp : ${allShopItems}">
+									<td><a
+										th:href="@{/shopItem/edit/{id}(id=${emp.id})}"><span
+										th:text="${emp.itemName}"></span></a>
+									</td>
+									<td th:text="${emp.itemPriority}"></td>
+<!-- 									<td th:text="${emp.notes}"></td> -->
+									<td align="center"><a
+										th:href="@{/shopItem/increment/{id}(id=${emp.id})}"
+										>inc</span></a> -
+										<a
+										th:href="@{/shopItem/decrement/{id}(id=${emp.id})}"
+										>dec</span></a>
+									<a
+										th:href="@{/shopItem/edit/{id}(id=${emp.id})}"><span
+											class="glyphicon glyphicon-edit"></span></a> &nbsp; &nbsp; <a
+										th:href="@{/shopItem/delete/{id}(id=${emp.id})}"><span
+											class="glyphicon glyphicon-trash"></span></a></td>
+								</tr>
+
+							</tbody>
+						</table>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+		<div class="row hidden-lg hidden-md">
+			<div class="col-sm-12 col-xs-12">
+				<div class="">
+					<div class="">
+						<h4>All ShopItems - <a th:href="@{/}">home</a></h4>
+						
+					</div>
+					<div>
+						<div class="row span12" th:each="emp : ${allShopItems}">
+							<div class="col-sm-4 col-xs-5">
+								<a
+										th:href="@{/shopItem/edit/{id}(id=${emp.id})}"><span
+										th:text="${emp.itemName}"></span></a>
+							</div>
+							<div class="col-sm-4 col-xs-7">
+							<span th:text="${emp.itemPriority}"></span>
+							<a
+										th:href="@{/shopItem/increment/{id}(id=${emp.id})}"
+										><span th:text="inc"></span></a>
+										<a
+										th:href="@{/shopItem/decrement/{id}(id=${emp.id})}"
+										><span th:text="dec"></span></a>
+<!-- 										<span class=" visible-xs-inline"> -->
+										<a
+										th:href="@{/shopItem/edit/{id}(id=${emp.id})}"><span
+											 th:text="edit"></span></a> <a
+										th:href="@{/shopItem/delete/{id}(id=${emp.id})}"><span
+											 th:text="del"></span></a>
+<!-- 										</span> -->
+										
+							</div>
+<!-- 							<div class="clearfix visible-xs-block"></div> -->
+							<div class="col-sm-4  visible-sm-block">
+								
+									<a
+										th:href="@{/shopItem/edit/{id}(id=${emp.id})}"><span
+											class="glyphicon glyphicon-edit"></span></a> &nbsp; &nbsp; <a
+										th:href="@{/shopItem/delete/{id}(id=${emp.id})}"><span
+											class="glyphicon glyphicon-trash"></span></a>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+		<div class="row" style="margin-bottom: 50px;">
+			<div class="col-md-offset-3 col-md-6">
+				<div class="panel panel-success">
+					<div class="panel-heading">
+						<h3 class="panel-title">Add ShopItem</h3>
+					</div>
+					<div class="panel-body">
+						<form th:object="${shopItem}" th:action="@{/shopItem/save}"
+							action="#" method="post">
+							<input type="text" th:field="*{itemName}" class="form-control"
+								placeholder="ShopItem Name" />
+							<div style="clear: both; display: block; height: 10px;"></div>
+							<input type="text" th:field="*{notes}" class="form-control"
+								placeholder="ShopItem Notes" />
+							<div style="clear: both; display: block; height: 10px;"></div>
+							<input type="text" th:field="*{itemPriority}"
+								class="form-control" placeholder="ShopItem Priority (000)" />
+							<div style="clear: both; display: block; height: 10px;"></div>
+							<input type="submit" class="btn btn-danger pull-right"
+								value="Save">
+						</form>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+	</div>
+</body>
+</html>
